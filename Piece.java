@@ -1,0 +1,43 @@
+package chess;
+
+public class Piece extends Board{
+
+    private Tile position;
+    private char file;
+    private int rank;
+    private char color;
+    private char type;
+    private String combined;
+
+    Piece(Tile position, char color, char type){
+        this.position = position;
+        this.color = color;
+        this.type = type;
+        this.combined = "" + color + type;
+    }
+    Piece(char file, int rank, char color, char type){
+        this.file = file;
+        this.rank = rank;
+        this.color = color;
+        this.type = type;
+        this.combined = "" + color + type;
+    }
+
+    void setPiece(char color, char type){
+        this.color = color;
+        this.type = type;
+        this.setCombined(this.color, this.type);
+    }
+
+    void setCombined(char color, char type){
+        this.combined = "" + color + type;
+    }
+
+    void setCombined(String combined){
+        this.combined = combined;
+    }
+
+    String getpiece(){
+        return this.combined;
+    }
+}
