@@ -2,6 +2,8 @@ package chess;
 
 public class Piece extends Board{
 
+    //TODO: MAKE INDIVIUAL PIECE CLASSES LIKE FOR THE PAWN AND ROOK AND STUFF, WITH THEIR RESPECTIVE MOVE OPTIONS ETC. 
+
     private Tile position;
     private char file;
     private int rank;
