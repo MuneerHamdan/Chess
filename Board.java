@@ -8,6 +8,8 @@ public class Board{
 	private char[] files; 
 	private int[] ranks;
 
+	String empty = "##";
+
 	String bP = "bP";
 	String wP = "wP";
 
@@ -40,7 +42,7 @@ public class Board{
 			for (int j = 0; j < this.tiles[0].length; ++j){
 				this.tiles[i][j] = new Tile();
 				this.tiles[i][j].setposition(this.files[i], this.ranks[j]);
-				this.tiles[i][j].setpiece(new Piece(this.files[i], this.ranks[j], '#', '#'));
+				this.tiles[i][j].setpiece(new Piece(this.files[i], this.ranks[j], empty));
 			}
 		}
 

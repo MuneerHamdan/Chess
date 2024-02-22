@@ -23,6 +23,16 @@ public class Piece extends Board{
         this.combined = "" + color + type;
     }
 
+    Piece(Tile position, String combined){
+        this.position = position;
+        this.combined = combined;
+    }
+    Piece(char file, int rank, String combined){
+        this.file = file;
+        this.rank = rank;
+        this.combined = combined;
+    }
+
     void setPiece(char color, char type){
         this.color = color;
         this.type = type;
