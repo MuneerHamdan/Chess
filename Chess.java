@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /*
- * todo: add illegal moves
+ * add illegal moves
  *  - has to be in order, white black white black moves
  *  - each piece has a certain moveset
  *  - cant move emptys
  *  - cant move piece somewhere unless empty or capturable or in their able moves
- *  - game must start with a white move
+ * 
+ * piece class should be abstract
+ *  - then make individual classes for all pieces
  */
 
 public class Chess{
@@ -20,7 +22,6 @@ public class Chess{
 		board.makeBoard();
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-		int turn = 0;
 		while(true){
 			board.printBoard();
 
@@ -31,19 +32,24 @@ public class Chess{
 				break;
 			}
 			char afile = input.charAt(0);
-			char arank = input.charAt(1);
-			int arankint = arank - '0';
-			if (!Character.isLetter(afile) || !Character.isDigit(arank)){
+			int arank = input.charAt(1) - '0';
+			if (!Character.isLetter(afile)){
 				System.err.println("wrong input");
 				break;
 			}
-			if (arankint == 1 || arankint == 2){
+			else if(arank < 1 || arank > 8){
+				System.err.println("wrong input");
+				break;
+			}
+			if (arank == 1 || arank == 2){
 
 			}
 			else {
 				System.err.println("must start with white pieces");
 				break;
 			}
+
+
 
 			System.out.println("to where:");
 			String input2 = bufferedReader.readLine();
@@ -52,15 +58,18 @@ public class Chess{
 				break;
 			}
 			char bfile = input2.charAt(0);
-			char brank = input2.charAt(1);
-			int brankint = brank - '0';
-			if (!Character.isLetter(bfile) || !Character.isDigit(brank)){
+			int brank = input2.charAt(1) - '0';
+			if (!Character.isLetter(bfile)){
+				System.err.println("wrong input");
+				break;
+			}
+			else if(brank < 1 || brank > 8){
 				System.err.println("wrong input");
 				break;
 			}
 			
-			board.movePiece(arankint, afile, brankint, bfile);
-			
+			board.movePiece(arank, afile, brank, bfile);
+			bufferedReader.close();
 		}		
 	}
 }
