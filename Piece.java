@@ -1,8 +1,6 @@
 package chess;
 
-public class Piece extends Board{
-
-    //TODO: MAKE INDIVIUAL PIECE CLASSES LIKE FOR THE PAWN AND ROOK AND STUFF, WITH THEIR RESPECTIVE MOVE OPTIONS ETC. 
+public class Piece{
 
     private Tile position;
     private char file;
@@ -10,6 +8,10 @@ public class Piece extends Board{
     private char color;
     private char type;
     private String combined;
+
+    Piece(){
+
+    }
 
     Piece(Tile position, char color, char type){
         this.position = position;
@@ -51,5 +53,10 @@ public class Piece extends Board{
 
     String getpiece(){
         return this.combined;
+    }
+
+    void setPosition(char a, int b){
+        this.file = a;
+        this.rank = b;
     }
 }

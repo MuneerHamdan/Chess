@@ -1,6 +1,6 @@
 package chess;
 
-public class Tile extends Board{
+public class Tile{
     
     private char file;
     private int rank;
