@@ -2,17 +2,16 @@ package chess;
 
 public class Tile{
     
+    private Piece piece;
     private char file;
     private int rank;
-    private Piece piece;
 
-    Tile(){
-        // position = new Str;
+    Tile(char file, int rank){
+        this.piece = new Empty(file, rank);
     }
 
-    void setposition(char f, int r){
-        this.file = f;
-        this.rank = r;
+    void setType(String type){
+        this.piece.setType(type);
     }
 
     char getfile(){
@@ -23,23 +22,11 @@ public class Tile{
         return this.rank;
     }
 
-    void setpiece(Piece piece){
-        this.piece = piece;
-    }
-
-    Piece getPiece(){
-        return this.piece;
-    }
-
-    void setType(char color, char type){
-        this.piece.setPiece(color, type);
-    }
-
-    void setType(String combined){
-        this.piece.setCombined(combined);
-    }
-
     String getType(){
-        return this.piece.getpiece();
+        return this.piece.getType();
+    }
+
+    void swap(){
+        
     }
 }

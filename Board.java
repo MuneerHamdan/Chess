@@ -42,9 +42,7 @@ public class Board{
 	Board makeBoard(){
 		for (int i = 0; i < this.tiles.length; ++i){
 			for (int j = 0; j < this.tiles[0].length; ++j){
-				this.tiles[i][j] = new Tile();
-				this.tiles[i][j].setposition(this.files.charAt(i), this.ranks[j]);
-				this.tiles[i][j].setpiece(new Piece(this.files.charAt(i), this.ranks[j], empty));
+				this.tiles[i][j] = new Tile(files.charAt(i), ranks[j]);
 			}
 		}
 
@@ -82,17 +80,17 @@ public class Board{
 		
 	// }
 
-	Piece getPiece(char a, int b){
-		return tiles[files.indexOf(a)][b].getPiece();
-	}
+	// Piece getPiece(char a, int b){
+	// 	return tiles[files.indexOf(a)][b].getPiece();
+	// }
 
-	void movePiece(int arank, char afile, int brank, char bfile){
-		int i = files.indexOf(afile);
-		int j = files.indexOf(bfile);
-		String temp = tiles[8-arank][i].getType();
-		tiles[8-arank][i].setType(empty);
-		tiles[8-brank][j].setType(temp);
-	}
+	// void movePiece(int arank, char afile, int brank, char bfile){
+	// 	int i = files.indexOf(afile);
+	// 	int j = files.indexOf(bfile);
+	// 	String temp = tiles[8-arank][i].getType();
+	// 	tiles[8-arank][i].setType(empty);
+	// 	tiles[8-brank][j].setType(temp);
+	// }
 
 	void printBoard(){
 		System.out.println();
