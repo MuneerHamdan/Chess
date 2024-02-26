@@ -67,6 +67,7 @@ public class Chess {
 		ReturnPlay.Message m = Board.move(p.piecesOnBoard, move);
 
 		if (m == null){
+			p.message = null;
 			return p;
 		}
 		switch (m) {
@@ -202,7 +203,7 @@ class Board {
 			}
 
 			
-
+		if(typeMove(initialPiece, Chess.i)){
 			switch (initialPiece.pieceType) {
 				case WP:
 					if (Character.getNumericValue(secondSquare.charAt(1)) == 8){
@@ -323,6 +324,10 @@ class Board {
 			turn++;
 			return null;
 		}
+		else{
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
+		}
 		else {
 			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
@@ -338,6 +343,25 @@ class Board {
 			}
 		}
 		return z;
+	}
+
+	//this manages the take turns and the white goes first
+	public static boolean typeMove(ReturnPiece p, int i){
+		PieceType pt = p.pieceType;
+		String s = pt.name();
+
+		if(s.charAt(0) == 'W' && i == 0){
+			Chess.i++;
+			return true;
+		}
+		else if(s.charAt(0) == 'B' && i == 1){
+			Chess.i--;
+			return true;
+
+		}
+		else{
+			return false;
+		}	
 	}
 
 	public static boolean hasTile(String tile, ArrayList<ReturnPiece> p){
