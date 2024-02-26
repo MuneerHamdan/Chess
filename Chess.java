@@ -129,6 +129,8 @@ class Board {
 
 	public static int turn = 0;
 	public static ArrayList<String> allmoves = new ArrayList<>();
+	public static boolean kingMoved = false;
+	public static boolean rookMoved = false;
 
 	//this method returns a "board" aka the arraylist of return pieces
 	//calls all the addPiece methods
@@ -267,6 +269,7 @@ class Board {
 					break;
 				case WR, BR:
 					new Rook().move(firstSquare, secondSquare, p);
+					rookMoved = true;
 					break;
 				case WN, BN:
 					new Knight().move(firstSquare, secondSquare, p);
@@ -275,30 +278,32 @@ class Board {
 					new Bishop().move(firstSquare, secondSquare, p);
 					break;
 				case WK: // make sure that rook is unmoved also
-					if (!hasTile("f1", p) && !hasTile("g1", p) && secondSquare.equalsIgnoreCase("g1")){
+					if (!hasTile("f1", p) && !hasTile("g1", p) && secondSquare.equalsIgnoreCase("g1")  && !kingMoved && !rookMoved){
 						new King().move(firstSquare, secondSquare, p);
 						new Rook().move("h1", "f1", p);
 					}
-					else if (!hasTile("d1", p) && !hasTile("c1", p) && !hasTile("b1", p) && secondSquare.equalsIgnoreCase("c1")){
+					else if (!hasTile("d1", p) && !hasTile("c1", p) && !hasTile("b1", p) && secondSquare.equalsIgnoreCase("c1")  && !kingMoved && !rookMoved){
 						new King().move(firstSquare, secondSquare, p);
 						new Rook().move("a1", "d1", p);
 					}
 					else {
 						new King().move(firstSquare, secondSquare, p);
+						kingMoved = true;
 					}
 
 					break;
 				case BK:
-					if (!hasTile("f8", p) && !hasTile("g8", p) && secondSquare.equalsIgnoreCase("g8")){
+					if (!hasTile("f8", p) && !hasTile("g8", p) && secondSquare.equalsIgnoreCase("g8") && !kingMoved && !rookMoved){
 						new King().move(firstSquare, secondSquare, p);
 						new Rook().move("h8", "f8", p);
 					}
-					else if (!hasTile("d8", p) && !hasTile("c8", p) && !hasTile("b8", p) && secondSquare.equalsIgnoreCase("c8")){
+					else if (!hasTile("d8", p) && !hasTile("c8", p) && !hasTile("b8", p) && secondSquare.equalsIgnoreCase("c8") && !kingMoved && !rookMoved){
 						new King().move(firstSquare, secondSquare, p);
 						new Rook().move("a8", "d8", p);
 					}
 					else {
 						new King().move(firstSquare, secondSquare, p);
+						kingMoved = true;
 					}
 
 					break;
