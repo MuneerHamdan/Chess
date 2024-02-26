@@ -574,6 +574,9 @@ class Board {
 						p.remove(removedPiece);
 						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
 					}
+					else {
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+					}
 				}
 				else {
 					return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
@@ -595,6 +598,9 @@ class Board {
 						}
 						p.remove(removedPiece);
 						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
+					}
+					else {
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
 					}
 				}
 				else {

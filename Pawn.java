@@ -11,7 +11,7 @@ public class Pawn extends Piece{
         
         switch(type){
             case WP:
-                if (rankI == 2 && rankD - rankI > 0 && rankD - rankI <= 2 && fileD == fileI){
+                if (!desthaspiece && rankI == 2 && rankD - rankI > 0 && rankD - rankI <= 2 && fileD == fileI){
                     return true;
                 }
                 else if (rankI != 2 && rankD - rankI == 1 && fileD == fileI && !desthaspiece){
@@ -27,7 +27,7 @@ public class Pawn extends Piece{
                     return false;
                 }
             case BP:
-                if(rankI == 7 && rankD - rankI < 0 && rankD - rankI >= -2 && fileD == fileI){
+                if(!desthaspiece && rankI == 7 && rankD - rankI < 0 && rankD - rankI >= -2 && fileD == fileI){
                     return true;
                 }
                 else if(rankI != 7 && rankD - rankI == -1 && fileD == fileI && !desthaspiece){
