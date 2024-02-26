@@ -67,6 +67,7 @@ public class Chess {
 		ReturnPlay.Message m = Board.move(p.piecesOnBoard, move);
 
 		if (m == null){
+			p.message = null;
 			return p;
 		}
 		switch (m) {
@@ -126,8 +127,6 @@ public class Chess {
 
 class Board {
 
-	public static int turn = 0;
-
 	//this method returns a "board" aka the arraylist of return pieces
 	//calls all the addPiece methods
 	public static ArrayList<ReturnPiece> createBoard(){
@@ -170,10 +169,10 @@ class Board {
 				draw = list[2];
 			}
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 1){
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 1){
 			return Message.RESIGN_WHITE_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 0){
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 0){
 			return Message.RESIGN_BLACK_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
 
@@ -199,7 +198,7 @@ class Board {
 				}
 			}
 
-
+		if(typeMove(takenpiece, Chess.i)){
 			switch (initialPiece.pieceType) {
 				case WP:
 					if (Character.getNumericValue(secondSquare.charAt(1)) == 8){
@@ -318,12 +317,34 @@ class Board {
 				}
 
 			}
-			turn++;
 			return null;
+		}
+		else{
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
 		}
 		else {
 			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
+	}
+
+	//this manages the take turns and the white goes first
+	public static boolean typeMove(ReturnPiece p, int i){
+		PieceType pt = p.pieceType;
+		String s = pt.name();
+
+		if(s.charAt(0) == 'W' && i == 0){
+			Chess.i++;
+			return true;
+		}
+		else if(s.charAt(0) == 'B' && i == 1){
+			Chess.i--;
+			return true;
+
+		}
+		else{
+			return false;
+		}	
 	}
 
 	public static ReturnPiece getPiece(String tile, ArrayList<ReturnPiece> p){
@@ -521,10 +542,10 @@ class Board {
 			return false;
 		}
 
-		if (type.name().charAt(0) == 'B' && turn % 2 == 0){
+		if (type.name().charAt(0) == 'B' && Chess.i == 0){
 			return false;
 		}
-		if (type.name().charAt(0) == 'W' && turn % 2 == 1){
+		if (type.name().charAt(0) == 'W' && Chess.i == 1){
 			return false;
 		}
 
