@@ -173,10 +173,10 @@ class Board {
 				draw = list[2];
 			}
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 1){
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 0){
 			return Message.RESIGN_WHITE_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 0){
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 1){
 			return Message.RESIGN_BLACK_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
 
