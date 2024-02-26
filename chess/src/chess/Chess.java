@@ -198,7 +198,7 @@ class Board {
 				}
 			}
 
-		if(typeMove(takenpiece, Chess.i)){
+		if(typeMove(initialPiece, Chess.i)){
 			switch (initialPiece.pieceType) {
 				case WP:
 					if (Character.getNumericValue(secondSquare.charAt(1)) == 8){
