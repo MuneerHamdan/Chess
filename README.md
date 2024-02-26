@@ -1,4 +1,4 @@
-# chess2
+# Chess
 Todo:
  - fix turn system
  - - legal moves showing up as illegal even though they are being played
