@@ -3,7 +3,7 @@ package chess;
 import java.util.ArrayList;
 
 public class Pawn extends Piece{
-    public boolean canMove(String initial, String destination, PieceType type, boolean desthaspiece){
+    public boolean canMove(String initial, String destination, PieceType type, boolean desthaspiece, boolean enpassant){
         int fileI = initial.charAt(0) - '0';
         int rankI = initial.charAt(1) - '0';
         int fileD = destination.charAt(0) - '0';
@@ -20,6 +20,9 @@ public class Pawn extends Piece{
                 else if (desthaspiece && ((fileD - fileI == 1) || (fileD - fileI == -1)) && rankD - rankI == 1){
                     return true;
                 }
+                else if (enpassant && ((fileD - fileI == 1) || (fileD - fileI == -1)) && rankD - rankI == 1){
+                    return true;
+                }
                 else {
                     return false;
                 }
@@ -33,7 +36,10 @@ public class Pawn extends Piece{
                 else if (desthaspiece && ((fileD - fileI == 1) || (fileD - fileI == -1)) && rankD - rankI == -1){
                     return true;
                 }
-                else{
+                else if (enpassant && ((fileD - fileI == 1) || (fileD - fileI == -1)) && rankD - rankI == -1){
+                    return true;
+                }
+                else {
                     return false;
                 }
             default:

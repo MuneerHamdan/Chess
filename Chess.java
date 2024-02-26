@@ -127,6 +127,7 @@ public class Chess {
 class Board {
 
 	public static int turn = 0;
+	public static ArrayList<String> allmoves = new ArrayList<>();
 
 	//this method returns a "board" aka the arraylist of return pieces
 	//calls all the addPiece methods
@@ -155,6 +156,7 @@ class Board {
 	//like a if(canMovePiece) then if(canMoveBoard), then the piece moves.
 	public static ReturnPlay.Message move(ArrayList<ReturnPiece> p, String move){
 		String[] list = parseMove(move);
+		allmoves.add(move);
 		String firstSquare = list[0];
 		String secondSquare = null;
 		if (list.length >= 2){
@@ -199,12 +201,14 @@ class Board {
 				}
 			}
 
+			
 
 			switch (initialPiece.pieceType) {
 				case WP:
 					if (Character.getNumericValue(secondSquare.charAt(1)) == 8){
 						
 						p.remove(initialPiece);
+
 							if (specifier.equalsIgnoreCase("N")){
 								Knight n = new Knight(takenpiece.pieceFile, ((int)takenpiece.pieceRank), PieceType.WN);
 								p.add(n);
@@ -225,10 +229,8 @@ class Board {
 								Queen q = new Queen(takenpiece.pieceFile, ((int)takenpiece.pieceRank), PieceType.WQ);
 								p.add(q);
 							}
-						
-						
 					}
-					else {
+					else{
 						new Pawn().move(firstSquare, secondSquare, p);
 					}
 					break;
@@ -530,8 +532,50 @@ class Board {
 
 
 		switch(type){
-			case WP, BP:
-				return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
+			case WP:
+				if (turn > 0){
+					char x = allmoves.get(turn-1).charAt(1);
+					char y = allmoves.get(turn-1).charAt(4);
+					
+					if (x == '7' && y == '5' && firstSquare.charAt(1) == '5'){
+						String q = allmoves.get(turn-1).substring(3);
+						ReturnPiece removedPiece = null;
+						for (ReturnPiece piece : p){
+							String asdf = piece.toString().substring(0, 2);
+							if (asdf.equalsIgnoreCase(q)){
+								removedPiece = piece;
+								break;
+							}
+						}
+						p.remove(removedPiece);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
+					}
+				}
+				else {
+					return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+				}
+			case BP:
+				if (turn > 0){
+					char x = allmoves.get(turn-1).charAt(1);
+					char y = allmoves.get(turn-1).charAt(4);
+					
+					if (x == '2' && y == '4' && firstSquare.charAt(1) == '4'){
+						String q = allmoves.get(turn-1).substring(3);
+						ReturnPiece removedPiece = null;
+						for (ReturnPiece piece : p){
+							String asdf = piece.toString().substring(0, 2);
+							if (asdf.equalsIgnoreCase(q)){
+								removedPiece = piece;
+								break;
+							}
+						}
+						p.remove(removedPiece);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
+					}
+				}
+				else {
+					return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+				}
 			case WR, BR:
 				boolean rtraversable = true;
 
