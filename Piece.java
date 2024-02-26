@@ -25,7 +25,6 @@ public abstract class Piece extends ReturnPiece{
     protected abstract boolean canMove(String initial, String destination, PieceType type, boolean desthaspiece);
         
 
-        // return true;
     
 
     //moves the piece
