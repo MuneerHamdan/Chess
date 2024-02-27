@@ -160,10 +160,23 @@ class Board {
 	public static ReturnPlay.Message move(ArrayList<ReturnPiece> p, String move){
 		String[] list = parseMove(move);
 		allmoves.add(move);
+		if(list.length == 0){
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
 		String firstSquare = list[0];
 		String secondSquare = null;
+		
+		if(firstSquare.length() != 2){
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
 		if (list.length >= 2){
 			secondSquare = list[1];
+			if(secondSquare.length() != 2){
+				return ReturnPlay.Message.ILLEGAL_MOVE;
+			}
+		}
+		if(!hasTile(firstSquare, p)){
+			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
 		String specifier = null;
 		String draw = null;
