@@ -1,3 +1,5 @@
+// Muneer Hamdan, Gabriel Ignacio
+
 package chess;
 
 import java.util.ArrayList;
