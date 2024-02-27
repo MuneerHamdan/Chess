@@ -181,8 +181,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -195,8 +198,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -209,8 +215,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -223,12 +232,16 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
-                return false;
+                return true;
             }
             else if (Math.abs(filed - filei) == Math.abs(rankd - ranki)){
                 while (filei < filed && ranki < rankd){
@@ -238,8 +251,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -250,8 +266,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -262,8 +281,11 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
@@ -274,15 +296,18 @@ public class Queen extends Piece{
                     for (ReturnPiece z : p){
                         String s = z.toString();
                         String[] sl = s.split(":");
-                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
-                            return true;
+                        if(sl[0].equalsIgnoreCase(diag2)){
+                            return false;
+                        }
+                        else if(!sl[1].equalsIgnoreCase("WK") || !sl[1].equalsIgnoreCase("BK")){
+                            return false;
                         }
                     }
                 }
                 return false;
             }
     
-            return true;
+            return false;
         }
     }
 

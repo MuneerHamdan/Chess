@@ -329,10 +329,14 @@ class Board {
 				}
 
 			}
+
+
+
+
 			turn++;
-			// if (check){
-			// 	return ReturnPlay.Message.CHECK;
-			// }
+			if (queenCheck(getWQueen(p), p)){
+				return ReturnPlay.Message.CHECK;
+			}
 			return null;
 		}
 		else{
@@ -677,11 +681,7 @@ class Board {
 				boolean qtraversable = new Queen().canTake(firstSquare, secondSquare, p);
 
 				if (qtraversable){
-					boolean qcheck = new Queen().checkKing(secondSquare, getBKing(p), p);
-
-					if (qcheck){
-						System.out.println("check");
-					}
+					queenCheck(secondSquare, p);
 					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
 				}else {
 					return false;
@@ -692,9 +692,9 @@ class Board {
 				if (qbtraversable){
 					boolean qcheck = new Queen().checkKing(secondSquare, getWKing(p), p);
 
-					// if (qcheck){
-					// 	check = true;
-					// }
+					if (qcheck){
+						System.out.println("check");
+					}
 					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
 				}else {
 					return false;
@@ -722,6 +722,17 @@ class Board {
         }
 		return null;
 	}
+	public static String getWQueen(ArrayList<ReturnPiece> p){
+        for (ReturnPiece z : p){
+            String s = z.toString();
+            String[] sl = s.split(":");
+            if(sl[1].equalsIgnoreCase("WQ")){
+                return sl[0];
+            }
+        }
+		return null;
+	}
+	
 
 	public static String getBKing(ArrayList<ReturnPiece> p){
         for (ReturnPiece z : p){
@@ -733,5 +744,53 @@ class Board {
         }
 		return null;
 	}
+
+
+	public static boolean queenCheck(String secondSquare, ArrayList<ReturnPiece> p){
+		boolean qcheck = new Queen().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						return true;
+					}
+					return false;
+	}
+	public static boolean bishopCheck(String secondSquare, ArrayList<ReturnPiece> p){
+		boolean qcheck = new Bishop().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						return true;
+					}
+					return false;
+
+	}
+	public static boolean rookCheck(String secondSquare, ArrayList<ReturnPiece> p){
+		boolean qcheck = new Rook().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						return true;
+					}
+					return false;
+
+	}
+	public static boolean knightCheck(String secondSquare, ArrayList<ReturnPiece> p){
+		boolean qcheck = new Knight().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						return true;
+					}
+					return false;
+
+	}
+	public static boolean pawnCheck(String secondSquare, ArrayList<ReturnPiece> p){
+		boolean qcheck = new Queen().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						return true;
+					}
+					return false;
+
+	}
+
+
 }
 
