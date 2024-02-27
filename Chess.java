@@ -1,6 +1,5 @@
 package chess;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import chess.ReturnPiece.PieceFile;
@@ -159,7 +158,9 @@ class Board {
 	//this should call both canMovePiece and canMoveBoard
 	//like a if(canMovePiece) then if(canMoveBoard), then the piece moves.
 	public static ReturnPlay.Message move(ArrayList<ReturnPiece> p, String move){
-		System.out.println(turn);
+
+		// boolean check = false;
+
 		String[] list = parseMove(move);
 		allmoves.add(move);
 		String firstSquare = list[0];
@@ -177,11 +178,11 @@ class Board {
 				draw = list[2];
 			}
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 1){
-			return Message.RESIGN_WHITE_WINS;
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 0){
+			return Message.RESIGN_WHITE_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
-		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 0){
-			return Message.RESIGN_BLACK_WINS;
+		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 1){
+			return Message.RESIGN_BLACK_WINS; //ADD WHITE BLACK ONCE ADD TURNS
 		}
 
 		ReturnPiece initialPiece = null;
@@ -205,7 +206,6 @@ class Board {
 					break;
 				}
 			}
-		}
 
 			
 		if(typeMove(initialPiece, Chess.i)){
@@ -329,37 +329,21 @@ class Board {
 				}
 
 			}
-
-			// // Check for check
-			// String kingSquare = "";
-			// for (ReturnPiece piece : p) {
-			// 	if (piece.pieceType == (turn % 2 == 0 ? PieceType.WK : PieceType.BK)) {
-			// 		kingSquare = piece.pieceFile.toString() + piece.pieceRank;
-			// 		break;
-			// 	}
-			// }
-		
-			// boolean isInCheck = isInCheck(kingSquare, p);
-		
-			// if (isInCheck) {
-			// 	if (isCheckmate(p)) {
-			// 		return turn % 2 == 0 ? Message.CHECKMATE_WHITE_WINS : Message.CHECKMATE_BLACK_WINS;
-			// 	} else {
-			// 		return Message.CHECK;
-			// 	}
-			// }
-
 			turn++;
-
+			// if (check){
+			// 	return ReturnPlay.Message.CHECK;
+			// }
 			return null;
 		}
-		else {
+		else{
 			allmoves.remove(move);
 			return ReturnPlay.Message.ILLEGAL_MOVE;
-		
+		}
+		}
+		else {
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
 	}
-}
-	
 
 	public static ReturnPiece getPiece(String tile, ArrayList<ReturnPiece> p){
 		ReturnPiece z = null;
@@ -564,10 +548,6 @@ class Board {
 		}
 
 		boolean desthaspiece = false;
-
-		if (type == null){
-			return false;
-		}
 		if (type2 != null){
 			desthaspiece = true;
 			if (type.name().charAt(0) == type2.name().charAt(0)){
@@ -575,6 +555,9 @@ class Board {
 			}
 		}
 
+		/*if (type == null){
+			return false;
+		}
 
 		if (type.name().charAt(0) == 'B' && Chess.i == 1){
 			Chess.i++;
@@ -583,7 +566,7 @@ class Board {
 		if (type.name().charAt(0) == 'W' && Chess.i == 0){
 			Chess.i--;
 			return true;
-		}
+		}*/
 
 
 		switch(type){
@@ -609,11 +592,25 @@ class Board {
 						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
 					}
 					else {
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+						boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
+
+						if (ptraversable){
+							return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+						}
+						else {
+							return false;
+						}
 					}
 				}
 				else {
-					return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+					boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
+
+					if (ptraversable){
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+					}
+					else {
+						return false;
+					}
 				}
 			case BP:
 				if (turn > 0){
@@ -637,59 +634,28 @@ class Board {
 						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
 					}
 					else {
+						boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
+
+					if (ptraversable){
 						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
 					}
-				}
-				else {
-					return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
-				}
-			case WR, BR:
-				boolean rtraversable = true;
-
-				String rdiag = firstSquare;
-				char ra = rdiag.charAt(0);
-				char rb = rdiag.charAt(1);
-				String rdiag2 = secondSquare;
-				char ra2 = rdiag2.charAt(0);
-				char rb2 = rdiag2.charAt(1);
-				if (ra2 == ra && rb2 - rb > 0){
-					rb++;
-				}
-				else if (ra2 == ra && rb2 - rb < 0){
-					rb--;
-				}
-				else if (ra2 > ra && rb2 == rb){
-					ra++;
-				}
-				else if (ra2 < ra && rb2 == rb){
-					ra--;
-				}
-				else {
-					return new Rook().canMove(firstSquare, secondSquare, type, desthaspiece);
-				}
-				
-				rdiag = "" + ra + rb;
-				while(rtraversable && !rdiag.equalsIgnoreCase(secondSquare)){
-					ReturnPiece z = getPiece(rdiag, p);
-					if (z == null){
-						rtraversable = true;
-						if (ra2 == ra && rb2 - rb > 0){
-							rb++;
-						}
-						else if (ra2 == ra && rb2 - rb < 0){
-							rb--;
-						}
-						else if (ra2 > ra && rb2 == rb){
-							ra++;
-						}
-						else if (ra2 < ra && rb2 == rb){
-							ra--;
-						}
-						rdiag = "" + ra + rb;
-					}else {
-						rtraversable = false;
+					else {
+						return false;
+					}
 					}
 				}
+				else {
+					boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
+
+					if (ptraversable){
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+					}
+					else {
+						return false;
+					}
+				}
+			case WR, BR:
+				boolean rtraversable = new Rook().canTake(firstSquare, secondSquare, p);
 					
 				if (rtraversable){
 					return new Rook().canMove(firstSquare, secondSquare, type, desthaspiece);
@@ -698,80 +664,74 @@ class Board {
 				}
 
 			case WB, BB:
-				boolean btraversable = true;
-
-				String bdiag = firstSquare;
-				char ba = bdiag.charAt(0);
-				char bb = bdiag.charAt(1);
-				String bdiag2 = secondSquare;
-				char ba2 = bdiag2.charAt(0);
-				char bb2 = bdiag2.charAt(1);
-				if (ba2 - ba > 0 && bb2 - bb > 0){
-					ba++;
-					bb++;
-				}
-				else if (ba2 - ba > 0 && bb2 - bb < 0){
-					ba++;
-					bb--;
-				}
-				else if (ba2 - ba < 0 && bb2 - bb > 0){
-					ba--;
-					bb++;
-				}
-				else {
-					ba--;
-					bb--;
-				}
-				
-				bdiag = "" + ba + bb;
-				while(btraversable && !bdiag.equalsIgnoreCase(secondSquare)){
-					ReturnPiece z = getPiece(bdiag, p);
-					if (z == null){
-						btraversable = true;
-						if (ba2 - ba > 0 && bb2 - bb > 0){
-							ba++;
-							bb++;
-						}
-						else if (ba2 - ba > 0 && bb2 - bb < 0){
-							ba++;
-							bb--;
-						}
-						else if (ba2 - ba < 0 && bb2 - bb > 0){
-							ba--;
-							bb++;
-						}
-						else {
-							ba--;
-							bb--;
-						}
-						bdiag = "" + ba + bb;
-					}else {
-						btraversable = false;
-					}
-				}
+				boolean btraversable = new Bishop().canTake(firstSquare, secondSquare, p);
 					
 				if (btraversable){
 					return new Bishop().canMove(firstSquare, secondSquare, type, desthaspiece);
 				}else {
 					return false;
 				}
-	
-
 			case WN, BN:
 				return new Knight().canMove(firstSquare, secondSquare, type, desthaspiece);
-			case WQ, BQ:
+			case WQ:
 				boolean qtraversable = new Queen().canTake(firstSquare, secondSquare, p);
 
 				if (qtraversable){
+					boolean qcheck = new Queen().checkKing(secondSquare, getBKing(p), p);
+
+					if (qcheck){
+						System.out.println("check");
+					}
+					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
+				}else {
+					return false;
+				}
+			case BQ:
+				boolean qbtraversable = new Queen().canTake(firstSquare, secondSquare, p);
+
+				if (qbtraversable){
+					boolean qcheck = new Queen().checkKing(secondSquare, getWKing(p), p);
+
+					// if (qcheck){
+					// 	check = true;
+					// }
 					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
 				}else {
 					return false;
 				}
 			case WK, BK:
+
+				boolean ktraversable = new King().canTake(firstSquare, secondSquare, p);
+				
+				// if (k)
+
+
 				return new King().canMove(firstSquare, secondSquare, type, desthaspiece);
 			default:
 				return false;
 		}
+	}
+
+	public static String getWKing(ArrayList<ReturnPiece> p){
+        for (ReturnPiece z : p){
+            String s = z.toString();
+            String[] sl = s.split(":");
+            if(sl[1].equalsIgnoreCase("WK")){
+                return sl[0];
+            }
+        }
+		return null;
+	}
+
+	public static String getBKing(ArrayList<ReturnPiece> p){
+        for (ReturnPiece z : p){
+            String s = z.toString();
+            String[] sl = s.split(":");
+            if(sl[1].equalsIgnoreCase("BK")){
+                return sl[0];
+            }
+        }
+		return null;
 	}
 }
 

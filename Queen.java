@@ -157,7 +157,132 @@ public class Queen extends Piece{
         return false;
     }
 
-    public void take(){
+    public boolean checkKing(String queenSquare, String kingSquare, ArrayList<ReturnPiece> p){
 
+        String diag = queenSquare;
+            
+            String diag2 = kingSquare;
+
+            
+            
+    
+            
+    
+            char filei = diag.charAt(0);
+            char filed = kingSquare.charAt(0);
+            char ranki = diag.charAt(1);
+            char rankd = kingSquare.charAt(1);
+    
+    
+            if (ranki == rankd && filei < filed){
+                while (filei < filed){
+                    filei++;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            else if (ranki == rankd && filei > filed){
+                while (filei > filed){
+                    filei--;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            else if (filei == filed && ranki < rankd){
+                while (ranki < rankd){
+                    ranki++;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            else if (filei == filed && ranki > rankd){
+                while (ranki > rankd){
+                    ranki--;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            else if (Math.abs(filed - filei) == Math.abs(rankd - ranki)){
+                while (filei < filed && ranki < rankd){
+                    filei++;
+                    ranki++;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                while (filei > filed && ranki > rankd){
+                    filei--;
+                    ranki--;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                while (filei < filed && ranki > rankd){
+                    ranki--;
+                    filei++;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                while (filei > filed && ranki < rankd){
+                    ranki++;
+                    filei--;
+                    diag2 = "" + filei + ranki;
+                    for (ReturnPiece z : p){
+                        String s = z.toString();
+                        String[] sl = s.split(":");
+                        if(sl[1].equalsIgnoreCase("WK") || sl[1].equalsIgnoreCase("BK")){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+    
+            return true;
+        }
     }
-}
+
