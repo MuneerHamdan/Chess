@@ -204,7 +204,7 @@ class Board {
 			}
 
 			
-
+		if(typeMove(initialPiece, Chess.i)){
 			switch (initialPiece.pieceType) {
 				case WP:
 					if (Character.getNumericValue(secondSquare.charAt(1)) == 8){
@@ -346,6 +346,11 @@ class Board {
 
 			return null;
 		}
+		else{
+			allmoves.remove(move);
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
+		}
 		else {
 			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
@@ -390,6 +395,25 @@ class Board {
 			}
 		}
 		return z;
+	}
+
+	//this manages the take turns and the white goes first
+	public static boolean typeMove(ReturnPiece p, int i){
+		PieceType pt = p.pieceType;
+		String s = pt.name();
+
+		if(s.charAt(0) == 'W' && i == 0){
+			Chess.i++;
+			return true;
+		}
+		else if(s.charAt(0) == 'B' && i == 1){
+			Chess.i--;
+			return true;
+
+		}
+		else{
+			return false;
+		}	
 	}
 
 	public static boolean hasTile(String tile, ArrayList<ReturnPiece> p){
@@ -576,11 +600,13 @@ class Board {
 		}
 
 
-		if (type.name().charAt(0) == 'B' && turn % 2 == 0){
-			return false;
+		if (type.name().charAt(0) == 'B' && Chess.i == 1){
+			Chess.i++;
+			return true;
 		}
-		if (type.name().charAt(0) == 'W' && turn % 2 == 1){
-			return false;
+		if (type.name().charAt(0) == 'W' && Chess.i == 0){
+			Chess.i--;
+			return true;
 		}
 
 
@@ -589,8 +615,11 @@ class Board {
 				if (turn > 0){
 					char x = allmoves.get(turn-1).charAt(1);
 					char y = allmoves.get(turn-1).charAt(4);
+					char z = allmoves.get(turn-1).charAt(0);
+					int a = (x - '0' + y - '0')/2;
+					String intial = ""  + z + a;
 					
-					if (x == '7' && y == '5' && firstSquare.charAt(1) == '5'){
+					if (x == '7' && y == '5' && firstSquare.charAt(1) == '5' && secondSquare.equalsIgnoreCase(intial)){
 						String q = allmoves.get(turn-1).substring(3);
 						ReturnPiece removedPiece = null;
 						for (ReturnPiece piece : p){
@@ -614,8 +643,11 @@ class Board {
 				if (turn > 0){
 					char x = allmoves.get(turn-1).charAt(1);
 					char y = allmoves.get(turn-1).charAt(4);
+					char z = allmoves.get(turn-1).charAt(0);
+					int a = (x - '0' + y - '0')/2;
+					String intial = ""  + z + a;
 					
-					if (x == '2' && y == '4' && firstSquare.charAt(1) == '4'){
+					if (x == '2' && y == '4' && firstSquare.charAt(1) == '4' && secondSquare.equalsIgnoreCase(intial)){
 						String q = allmoves.get(turn-1).substring(3);
 						ReturnPiece removedPiece = null;
 						for (ReturnPiece piece : p){
