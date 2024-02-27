@@ -43,6 +43,7 @@ public class Chess {
 	enum Player { white, black }
 	public static ReturnPlay p;
 	public static int i = 0;
+	public static boolean reset = false; 
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -66,7 +67,14 @@ public class Chess {
 		
 		ReturnPlay.Message m = Board.move(p.piecesOnBoard, move);
 
-		if (m == null){
+		if (reset){
+			p.message = null;
+			Board.allmoves = null;
+			Board.turn = 0;
+			start();
+			return p;
+		}
+		if(m == null){
 			p.message = null;
 			return p;
 		}
@@ -119,8 +127,11 @@ public class Chess {
 	public static void start() {
 		/* FILL IN THIS METHOD */
 		//makePlay();
-		Chess.p = new ReturnPlay();
+		p = new ReturnPlay();
 		p.piecesOnBoard = Board.createBoard();
+		p.message = null;
+		reset = false;
+		i = 0;
 		
 	}
 }
@@ -166,18 +177,6 @@ class Board {
 		String firstSquare = list[0];
 		String secondSquare = null;
 		
-		if(firstSquare.length() != 2){
-			return ReturnPlay.Message.ILLEGAL_MOVE;
-		}
-		if (list.length >= 2){
-			secondSquare = list[1];
-			if(secondSquare.length() != 2){
-				return ReturnPlay.Message.ILLEGAL_MOVE;
-			}
-		}
-		if(!hasTile(firstSquare, p)){
-			return ReturnPlay.Message.ILLEGAL_MOVE;
-		}
 		String specifier = null;
 		String draw = null;
 		if (list.length == 3){
@@ -193,6 +192,24 @@ class Board {
 		}
 		if (firstSquare.equalsIgnoreCase("resign") && Chess.i == 1){
 			return Message.RESIGN_BLACK_WINS; //ADD WHITE BLACK ONCE ADD TURNS
+		}
+
+		if (firstSquare.equalsIgnoreCase("reset")){
+			Chess.reset = true;
+			return null;
+		}
+		
+		if(firstSquare.length() != 2){
+			return ReturnPlay.Message.ILLEGAL_MOVE;
+		}
+		if (list.length >= 2){
+			secondSquare = list[1];
+			if(secondSquare.length() != 2){
+				return ReturnPlay.Message.ILLEGAL_MOVE;
+			}
+		}
+		if(!hasTile(firstSquare, p)){
+			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
 
 		ReturnPiece initialPiece = null;
