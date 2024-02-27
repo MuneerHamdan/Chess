@@ -157,6 +157,7 @@ class Board {
 	//this should call both canMovePiece and canMoveBoard
 	//like a if(canMovePiece) then if(canMoveBoard), then the piece moves.
 	public static ReturnPlay.Message move(ArrayList<ReturnPiece> p, String move){
+		System.out.println(turn);
 		String[] list = parseMove(move);
 		allmoves.add(move);
 		String firstSquare = list[0];
@@ -202,6 +203,7 @@ class Board {
 					break;
 				}
 			}
+		}
 
 			
 		if(typeMove(initialPiece, Chess.i)){
@@ -346,43 +348,12 @@ class Board {
 
 			return null;
 		}
-		else{
+		else {
 			allmoves.remove(move);
 			return ReturnPlay.Message.ILLEGAL_MOVE;
-		}
-		}
-		else {
-			return ReturnPlay.Message.ILLEGAL_MOVE;
-		}
+		
 	}
-
-	public static boolean isInCheck(String kingSquare, ArrayList<ReturnPiece> p) {
-		for (ReturnPiece piece : p) {
-			if (piece.pieceType == (turn % 2 == 0 ? PieceType.BK : PieceType.WK)) {
-				if (canMovePiece(piece.pieceFile.toString() + piece.pieceRank + " " + kingSquare, p)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public static boolean isCheckmate(ArrayList<ReturnPiece> p) {
-		// Check if the king has any legal moves
-		for (ReturnPiece piece : p) {
-			if (piece.pieceType == (turn % 2 == 0 ? PieceType.BK : PieceType.WK)) {
-				for (char file = 'a'; file <= 'h'; file++) {
-					for (int rank = 1; rank <= 8; rank++) {
-						String move = piece.pieceFile.toString() + piece.pieceRank + " " + file + rank;
-						if (canMovePiece(move, p)) {
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return true;
-	}
+}
 	
 
 	public static ReturnPiece getPiece(String tile, ArrayList<ReturnPiece> p){
