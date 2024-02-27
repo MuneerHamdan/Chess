@@ -1,5 +1,6 @@
 package chess;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import chess.ReturnPiece.PieceFile;
@@ -67,6 +68,7 @@ public class Chess {
 		ReturnPlay.Message m = Board.move(p.piecesOnBoard, move);
 
 		if (m == null){
+			p.message = null;
 			return p;
 		}
 		switch (m) {
@@ -173,10 +175,10 @@ class Board {
 			}
 		}
 		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 1){
-			return Message.RESIGN_WHITE_WINS; //ADD WHITE BLACK ONCE ADD TURNS
+			return Message.RESIGN_WHITE_WINS;
 		}
 		if (firstSquare.equalsIgnoreCase("resign") && turn % 2 == 0){
-			return Message.RESIGN_BLACK_WINS; //ADD WHITE BLACK ONCE ADD TURNS
+			return Message.RESIGN_BLACK_WINS;
 		}
 
 		ReturnPiece initialPiece = null;
@@ -320,13 +322,63 @@ class Board {
 				}
 
 			}
+
+			// // Check for check
+			// String kingSquare = "";
+			// for (ReturnPiece piece : p) {
+			// 	if (piece.pieceType == (turn % 2 == 0 ? PieceType.WK : PieceType.BK)) {
+			// 		kingSquare = piece.pieceFile.toString() + piece.pieceRank;
+			// 		break;
+			// 	}
+			// }
+		
+			// boolean isInCheck = isInCheck(kingSquare, p);
+		
+			// if (isInCheck) {
+			// 	if (isCheckmate(p)) {
+			// 		return turn % 2 == 0 ? Message.CHECKMATE_WHITE_WINS : Message.CHECKMATE_BLACK_WINS;
+			// 	} else {
+			// 		return Message.CHECK;
+			// 	}
+			// }
+
 			turn++;
+
 			return null;
 		}
 		else {
 			return ReturnPlay.Message.ILLEGAL_MOVE;
 		}
 	}
+
+	public static boolean isInCheck(String kingSquare, ArrayList<ReturnPiece> p) {
+		for (ReturnPiece piece : p) {
+			if (piece.pieceType == (turn % 2 == 0 ? PieceType.BK : PieceType.WK)) {
+				if (canMovePiece(piece.pieceFile.toString() + piece.pieceRank + " " + kingSquare, p)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isCheckmate(ArrayList<ReturnPiece> p) {
+		// Check if the king has any legal moves
+		for (ReturnPiece piece : p) {
+			if (piece.pieceType == (turn % 2 == 0 ? PieceType.BK : PieceType.WK)) {
+				for (char file = 'a'; file <= 'h'; file++) {
+					for (int rank = 1; rank <= 8; rank++) {
+						String move = piece.pieceFile.toString() + piece.pieceRank + " " + file + rank;
+						if (canMovePiece(move, p)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
 
 	public static ReturnPiece getPiece(String tile, ArrayList<ReturnPiece> p){
 		ReturnPiece z = null;
@@ -512,6 +564,10 @@ class Board {
 		}
 
 		boolean desthaspiece = false;
+
+		if (type == null){
+			return false;
+		}
 		if (type2 != null){
 			desthaspiece = true;
 			if (type.name().charAt(0) == type2.name().charAt(0)){
@@ -519,9 +575,6 @@ class Board {
 			}
 		}
 
-		if (type == null){
-			return false;
-		}
 
 		if (type.name().charAt(0) == 'B' && turn % 2 == 0){
 			return false;
@@ -699,85 +752,8 @@ class Board {
 			case WN, BN:
 				return new Knight().canMove(firstSquare, secondSquare, type, desthaspiece);
 			case WQ, BQ:
-				boolean qtraversable = true;
+				boolean qtraversable = new Queen().canTake(firstSquare, secondSquare, p);
 
-				String qdiag = firstSquare;
-				char qa = qdiag.charAt(0);
-				char qb = qdiag.charAt(1);
-				String qdiag2 = secondSquare;
-				char qa2 = qdiag2.charAt(0);
-				char qb2 = qdiag2.charAt(1);
-				if (qa2 - qa > 0 && qb2 - qb > 0){
-					qa++;
-					qb++;
-				}
-				else if (qa2 - qa > 0 && qb2 - qb < 0){
-					qa++;
-					qb--;
-				}
-				else if (qa2 - qa < 0 && qb2 - qb > 0){
-					qa--;
-					qb++;
-				}
-				else if (qa2 - qa < 0 && qb2 - qb < 0){
-					qa--;
-					qb--;
-				}
-				else if (qa2 == qa && qb2 - qb > 0){
-					qb++;
-				}
-				else if (qa2 == qa && qb2 - qb < 0){
-					qb--;
-				}
-				else if (qa2 > qa && qb2 == qb){
-					qa++;
-				}
-				else if (qa2 < qa && qb2 == qb){
-					qa--;
-				}
-				else {
-					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
-				}
-				
-				qdiag = "" + qa + qb;
-				while(qtraversable && !qdiag.equalsIgnoreCase(secondSquare)){
-					ReturnPiece z = getPiece(qdiag, p);
-					if (z == null){
-						btraversable = true;
-						if (qa2 - qa > 0 && qb2 - qb > 0){
-							qa++;
-							qb++;
-						}
-						else if (qa2 - qa > 0 && qb2 - qb < 0){
-							qa++;
-							qb--;
-						}
-						else if (qa2 - qa < 0 && qb2 - qb > 0){
-							qa--;
-							qb++;
-						}
-						else if (qa2 - qa < 0 && qb2 - qb < 0){
-							qa--;
-							qb--;
-						}
-						else if (qa2 == qa && qb2 - qb > 0){
-							qb++;
-						}
-						else if (qa2 == qa && qb2 - qb < 0){
-							qb--;
-						}
-						else if (qa2 > qa && qb2 == qb){
-							qa++;
-						}
-						else if (qa2 < qa && qb2 == qb){
-							qa--;
-						}
-						qdiag = "" + qa + qb;
-					}else {
-						qtraversable = false;
-					}
-				}
-					
 				if (qtraversable){
 					return new Queen().canMove(firstSquare, secondSquare, type, desthaspiece);
 				}else {

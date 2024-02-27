@@ -20,7 +20,7 @@ public class King extends Piece{
         int fileD = destination.charAt(0) - '0';
         int rankD = destination.charAt(1) - '0';
         
-        if(!moved && fileD - fileI <= 2 && rankD - rankI <= 2 && fileD - fileI >= -2 && rankD - rankI >= -2){
+        if(!moved && fileD - fileI <= 2 && (rankD - rankI == 1 || rankD - rankI == -1) && fileD - fileI >= -2){
             moved = true;
             return true;
         }
