@@ -589,13 +589,13 @@ class Board {
 							}
 						}
 						p.remove(removedPiece);
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 					}
 					else {
 						boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
 
 						if (ptraversable){
-							return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+							return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 						}
 						else {
 							return false;
@@ -606,7 +606,7 @@ class Board {
 					boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
 
 					if (ptraversable){
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 					}
 					else {
 						return false;
@@ -631,13 +631,13 @@ class Board {
 							}
 						}
 						p.remove(removedPiece);
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, true);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 					}
 					else {
 						boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
 
 					if (ptraversable){
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 					}
 					else {
 						return false;
@@ -648,7 +648,7 @@ class Board {
 					boolean ptraversable = new Pawn().canTake(firstSquare, secondSquare, p);
 
 					if (ptraversable){
-						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece, false);
+						return new Pawn().canMove(firstSquare, secondSquare, type, desthaspiece);
 					}
 					else {
 						return false;

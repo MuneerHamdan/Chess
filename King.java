@@ -39,9 +39,9 @@ public class King extends Piece{
 
     public boolean canTake(String firstSquare, String secondSquare, ArrayList<ReturnPiece> p){
 
-        char filei = diag.charAt(0);
+        char filei = firstSquare.charAt(0);
         char filed = secondSquare.charAt(0);
-        char ranki = diag.charAt(1);
+        char ranki = firstSquare.charAt(1);
         char rankd = secondSquare.charAt(1);
 
         String left = "" + (filei - 1) + ranki;
@@ -49,7 +49,7 @@ public class King extends Piece{
         for (ReturnPiece z : p){
             String s = z.toString();
             String[] sl = s.split(":");
-            if(sl[0].equalsIgnoreCase(diag2)){
+            if(sl[0].equalsIgnoreCase(secondSquare)){
                 return false;
             }
         }

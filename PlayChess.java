@@ -1,3 +1,4 @@
+// Muneer Hamdan myh16, Gabriel Ignacio ggi3
 package chess;
 
 import java.util.ArrayList;
